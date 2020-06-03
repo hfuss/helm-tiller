@@ -16,12 +16,12 @@ Helm 3.0.0 has been [released](https://helm.sh/blog/helm-3-released/), check it 
 
 Install Helm client as per one of recommended [ways](https://docs.helm.sh/using_helm/#installing-the-helm-client).
 
-**Note:** Initialize helm with `helm init --client-only`, flag `--client-only` is a must as otherwise you will get `Tiller` installed in to Kubernetes cluster.
+**Note:** Initialize helm with `helm2 init --client-only`, flag `--client-only` is a must as otherwise you will get `Tiller` installed in to Kubernetes cluster.
 
 Then install the latest plugin version:
 
 ```console
-helm plugin install https://github.com/rimusz/helm-tiller
+helm2 plugin install https://github.com/hfuss/helm-tiller
 ```
 
 ## Usage
@@ -31,11 +31,11 @@ helm plugin install https://github.com/rimusz/helm-tiller
 Usage:
 
 ```console
-helm tiller install
-helm tiller start [tiller_namespace]
-helm tiller start-ci [tiller_namespace]
-helm tiller stop
-helm tiller run [tiller_namespace] -- [command] [args]
+helm2 tiller install
+helm2 tiller start [tiller_namespace]
+helm2 tiller start-ci [tiller_namespace]
+helm2 tiller stop
+helm2 tiller run [tiller_namespace] -- [command] [args]
 
 Available Commands:
 install   Manually install/upgrade Tiller binary
@@ -61,13 +61,13 @@ Available environment variables:
 Start Tiller with pre-set `bash` shell `HELM_HOST=127.0.0.1:44134`, it is handy to use locally:
 
 ```console
-helm tiller start
+helm2 tiller start
 ```
 
 The default working Tiller `namespace` is `kube-system`, you can set another one:
 
 ```console
-helm tiller start my_tiller_namespace
+helm2 tiller start my_tiller_namespace
 ```
 
 > **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
@@ -75,7 +75,7 @@ helm tiller start my_tiller_namespace
 In CI pipelines you do not really need pre-set bash to be opened, so you can use:
 
 ```console
-helm tiller start-ci
+helm2 tiller start-ci
 export HELM_HOST=127.0.0.1:44134
 ```
 
@@ -94,38 +94,38 @@ Another option for CI workflows.
 Examples use of `tiller run`, that starts/stops `tiller` before/after the specified command:
 
 ```console
-helm tiller run helm list
-helm tiller run my-tiller-namespace -- helm list
-helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+helm2 tiller run helm list
+helm2 tiller run my-tiller-namespace -- helm list
+helm2 tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
 Handy `bash` aliases for use `Tillerless` locally:
 
 ```
-alias hh="helm tiller run helm"
-alias hr="helm tiller run"
-alias ht="helm tiller start"
-alias hts="helm tiller stop"
+alias h2h="helm2 tiller run helm"
+alias h2r="helm2 tiller run"
+alias h2t="helm2 tiller start"
+alias h2ts="helm 2tiller stop"
 ```
 
 Examples of alias use:
 
 ```console
-# helm tiller run helm list
-hh ls
+# helm2 tiller run helm list
+h2h ls
 
-# helm tiller run my-tiller-namespace -- helm list
-hr my-tiller-namespace -- helm list
+# helm2 tiller run my-tiller-namespace -- helm list
+h2r my-tiller-namespace -- helm list
 
-# helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
-hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
+# helm2 tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+h2r my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
 ### Terraform Tiller examples
 To use tiller with [terraform-helm-provider](https://www.terraform.io/docs/providers/helm/index.html), use `helm tiller start-ci` and set the helm provider's host to point to the locally started tiller.
 
 ```console
-$ helm tiller start-ci
+$ helm2 tiller start-ci
 ```
 
 ```hcl
@@ -143,6 +143,6 @@ While using [Minikube](https://kubernetes.io/docs/setup/minikube/), it is import
 ```console
 $ minikube delete
 $ minikube start
-$ helm tiller stop
-$ helm tiller start
+$ helm2 tiller stop
+$ helm2 tiller start
 ```
