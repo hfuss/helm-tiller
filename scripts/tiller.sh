@@ -20,14 +20,14 @@ function usage() {
     printf "%s\\n\\n" "$1"
   fi
   cat <<'  EOF'
-  Helm plugin for using Tiller locally
+  Helm V2 plugin for using Tiller locally
 
   Usage:
-    helm tiller install
-    helm tiller start [tiller_namespace]
-    helm tiller start-ci [tiller_namespace]
-    helm tiller stop
-    helm tiller run [tiller_namespace] -- [command] [args]
+    helm2 tiller install
+    helm2 tiller start [tiller_namespace]
+    helm2 tiller start-ci [tiller_namespace]
+    helm2 tiller stop
+    helm2 tiller run [tiller_namespace] -- [command] [args]
 
   Available Commands:
     install   Manually install/upgrade Tiller binary
@@ -48,12 +48,12 @@ function usage() {
     'CREATE_NAMESPACE_IF_MISSING=false' - indicate whether the namespace should be created if it does not exist.
 
   Example use with the set namespace:
-    $ helm tiller start my-tiller-namespace
+    $ helm2 tiller start my-tiller-namespace
 
   Example use of `run`, that starts/stops tiller before/after the specified command:
-    $ helm tiller run helm list
-    $ helm tiller run my-tiller-namespace -- helm list
-    $ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+    $ helm2 tiller run helm list
+    $ helm2 tiller run my-tiller-namespace -- helm list
+    $ helm2 tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
 
   Example use of `env` to set environment variables for start-ci:
     $ source <(helm tiller env my-tiller-namespace)
@@ -63,14 +63,14 @@ function usage() {
 
 check_helm() {
   # Check if helm is installed
-  if ! command -v helm >/dev/null 2>&1; then
+  if ! command -v helm2 >/dev/null 2>&1; then
     echo "Helm client is not installed!"
     exit 0
   fi
 }
 
 check_install_tiller() {
-  INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
+  INSTALLED_HELM=$(helm2 version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
       echo "Installed Helm version $INSTALLED_HELM"
   fi
